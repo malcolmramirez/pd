@@ -1,0 +1,1070 @@
+#N canvas 199 26 988 734 10;
+#X text 389 5 line \, line~ \, vline~ and envelopes;
+#X text 418 17 ----------------------;
+#X obj 91 123 line;
+#X msg 92 99 1 \, 0 1000;
+#X floatatom 91 148 5 0 0 0 - - -;
+#X obj 505 68 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 508 690 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 151 284 1 \, 0 1000;
+#X obj 151 308 line~;
+#X obj 91 265 noise~;
+#X obj 136 342 *~;
+#X obj 129 370 dac~;
+#X obj 91 289 *~ 0.2;
+#X obj 316 311 line~;
+#X obj 256 268 noise~;
+#X obj 301 345 *~;
+#X obj 291 374 dac~;
+#X obj 256 292 *~ 0.2;
+#X msg 316 287 1 \, 0 100;
+#X obj 205 580 line~;
+#X obj 145 537 noise~;
+#X obj 190 614 *~;
+#X obj 180 643 dac~;
+#X obj 145 561 *~ 0.2;
+#X msg 205 557 1 \, 0 \$1;
+#X obj 205 536 f;
+#X obj 230 506 nbx 4 14 10 1000 1 1 empty empty empty 0 -8 0 10 -262144
+-1 -1 756.236 256;
+#X text 279 506 ms;
+#X msg 205 477 bang;
+#X text 85 437 the number box stores the time \, and the [bang( message
+triggers the envelope;
+#X obj 592 578 noise~;
+#X obj 688 633 *~;
+#X obj 678 662 dac~;
+#X obj 592 602 *~ 0.2;
+#X obj 600 195 line;
+#X floatatom 600 220 5 0 0 0 - - -;
+#X msg 554 154 1 1000;
+#X msg 623 155 0 1000;
+#X text 552 136 attack;
+#X text 623 136 decay;
+#X obj 788 222 line;
+#X msg 742 147 1 1000;
+#X msg 794 194 0 1000;
+#X text 740 129 attack;
+#X text 844 193 decay;
+#X obj 793 170 delay 1000;
+#X obj 748 174 t a b;
+#X obj 791 247 hsl 80 12 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X obj 132 151 hsl 80 12 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 0 1;
+#X text 586 116 MANUAL:;
+#X text 772 105 AUTOMATIC:;
+#X text 541 279 Now let's make a signal version of that \, using [line~]
+;
+#X text 86 424 Ok \, now let's make that decay time variable:;
+#X text 80 193 Let's make a signal version of that \, with [line~]
+and then envelope some [noise~] \, first with a 1000ms line \, and
+then with a 100ms line:;
+#X text 89 57 Most basic envelope: starts at 1 \, goes down to zero
+in 1000ms;
+#X text 631 79 Attack and Decay:;
+#X text 540 294 Let's also make the attack and decay times variable.
+;
+#X obj 656 442 f;
+#X obj 681 412 nbx 4 14 5 1000 1 0 empty empty attack 0 -8 0 10 -262144
+-1 -1 5 256;
+#X text 730 412 ms;
+#X msg 656 378 bang;
+#X obj 703 543 f;
+#X obj 740 540 nbx 4 14 10 10000 1 1 empty empty decay 0 -8 0 10 -262144
+-1 -1 2000 256;
+#X text 787 539 ms;
+#X text 537 313 We want the decay to trigger directly after the attack
+is finished \, so we set the time for the [delay] object to equal the
+attack time:;
+#X msg 703 566 0 \$1;
+#X msg 656 521 1 \$1;
+#X obj 703 490 delay;
+#X obj 656 465 t f f;
+#X text 740 468 (sending a float to the left;
+#X text 751 484 inlet of [delay] forces it to;
+#X text 748 498 output a bang after x ms);
+#X obj 703 597 line~;
+#N canvas 177 56 1050 687 page-2 0;
+#X obj 63 424 noise~;
+#X obj 159 479 *~;
+#X obj 149 508 dac~;
+#X obj 63 448 *~ 0.2;
+#X obj 127 288 f;
+#X obj 152 258 nbx 4 14 0.1 1000 1 1 empty empty attack 0 -8 0 10 -262144
+-1 -1 0.1 256;
+#X text 201 258 ms;
+#X msg 127 224 bang;
+#X obj 174 389 f;
+#X obj 211 386 nbx 4 14 10 10000 1 1 empty empty decay 0 -8 0 10 -262144
+-1 -1 500 256;
+#X text 261 384 ms;
+#X msg 174 412 0 \$1;
+#X msg 127 367 1 \$1;
+#X obj 174 336 delay;
+#X obj 127 311 t f f;
+#X obj 174 443 line~;
+#X obj 463 23 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 466 645 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 49 107 Let's look at that last patch again.;
+#X text 49 124 If you set the attack to a very low value \, the envelope
+just doesn't trigger. That's weird!;
+#X text 50 158 The reason for this is that [line~] only operates once
+for each block of audio. If you have a samplerate of 44100hz \, and
+a standard block size of 64 samples \, then [line~] will need a break
+of more than 64/44100 = 1.45125ms;
+#X text 62 557 for this \, and various other reasons \, it is generally
+a good idea to use the more accurate [vline~] for creating envelopes.
+;
+#X obj 553 400 noise~;
+#X obj 606 488 *~;
+#X obj 596 517 dac~;
+#X obj 553 424 *~ 0.2;
+#X obj 621 341 f;
+#X obj 646 311 nbx 4 14 0.1 1000 1 1 empty empty attack 0 -8 0 10 -262144
+-1 -1 0.1 256;
+#X text 695 311 ms;
+#X msg 621 267 bang;
+#X obj 679 352 nbx 4 14 10 10000 1 1 empty empty decay 0 -8 0 10 -262144
+-1 -1 250 256;
+#X text 727 349 ms;
+#X obj 621 452 vline~;
+#X text 505 67 [vline~] behaves just like [line~] does \, but with
+a couple of important differences.;
+#X text 506 108 Firstly \, as demonstrated in the previous example
+\, [line~] can only compute messages when it reaches the boundary of
+1 block of audio. This is often not good enough for envelopes \, when
+we need sample-accurate timing.;
+#X text 507 173 Secondly \, [vline~] helps us do away with some of
+the [delay] objects that would be needed to make complex envelopes
+with [line~].;
+#X text 510 231 Here's the previous construction \, but with [vline~]
+instead of [line~];
+#X msg 621 425 1 \$1 \, 0 \$2 \$1;
+#X obj 621 395 pack f f;
+#X text 526 552 You'll probably notice a couple of things. This is
+a lot neater than the patch we made with [line~]. Also \, we can now
+make very short attacks \, and the envelope triggers without trouble.
+;
+#N canvas 202 53 1013 711 page-3 0;
+#X obj 533 31 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 536 685 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 67 13 Here's a further explanation of that last bit:;
+#X obj 94 102 vline~;
+#X msg 94 75 1 \$1 \, 0 \$2 \$1;
+#X obj 94 45 pack f f;
+#X text 65 128 This is exactly what we did earlier on with setting
+a delay value for the message to [line~] \, however it is all automated
+by the [vline~] object.;
+#X text 65 172 In the message box \, we have two values \, \$1 and
+\$2. These will be replaced by the list coming out of our [pack] object.
+So \, we could write it as:;
+#X msg 66 220 1 (attack) \, 0 (decay) (attack);
+#X text 64 247 The first half of that should be clear:;
+#X text 64 261 We ramp up to a vaule of 1 \, over the time specified
+by (attack);
+#X text 64 298 What happens in the second message though \, is a bit
+weirder. The message has 3 values: 0 \, (decay) \, (attack). What this
+means is that the [vline~] object will wait (attack) ms \, then ramp
+to 0 over a period of (decay) ms.;
+#X text 63 367 All [vline~] messages have 3 parts:;
+#X text 68 384 value \, time \, delay;
+#X msg 301 369 1 1000 500;
+#X obj 301 395 vline~;
+#X text 58 437 It's a little bit confusing \, because the 3rd part
+is actually read first. So \, if we think logically what is happening
+above \, it goes: wait 500ms \, then ramp to 1 in 1000ms;
+#X msg 62 572 1 \$1 0 \, 0 \$2 \$1;
+#X msg 66 637 1 \$1 \, 0 \$2 \$1;
+#X text 59 507 Another potential confusion is that not all vline~ messages
+have 3 parts. However \, what really happens is that the second and
+third parts are relaced by zeroes if they are absent. So \, our orignal
+message really looks like this:;
+#X text 51 606 But we can neglect that third zero and thus we write
+it as:;
+#X text 583 85 We can string as many of these messages together as
+we want. One important thing to remember \, is that the 3rd part of
+our [vline~] is the delay from the time when the message is received.
+;
+#X text 588 154 Let's look at an example:;
+#X obj 605 194 noise~;
+#X obj 650 271 *~;
+#X obj 640 300 dac~;
+#X obj 605 218 *~ 0.2;
+#X obj 667 225 vline~;
+#X msg 667 192 0 \, 1 5 \, 0.02 50 5 \, 0 1000 55;
+#X text 600 333 That's a percussive envelope \, rising quickly to full
+amplitude \, dropping down quite quickly to 0.2 amplitude \, and then
+a 'tail' section of 1000ms to reach zero.;
+#X text 599 383 Let's expand that out to include all the absent zeroes:
+;
+#X msg 622 408 0 0 0 \, 1 5 0 \, 0.02 50 5 \, 0 1000 55;
+#X text 625 455 and now it should be fairly clear how it works:;
+#X text 623 473 (remember we should logically think of the 3rd value
+\, the delay time \, before thinking of the other 2 values);
+#X text 614 538 1 5 0 = wait 0ms \, then ramp to 1 in 5ms;
+#X text 590 557 0.02 50 5 = wait 5 ms \, then ramp to 0.02 in 50ms
+;
+#X text 591 576 0 1000 55 = wait 55ms \, then ramp to 0 in 1000ms;
+#X text 613 519 0 0 0 = wait 0ms \, then ramp to 0 in 0ms;
+#X text 582 602 note that all these 'wait' times are the time to wait
+from when the original message is sent. All messages are sent to the
+vline~ at exactly the same time \, and they are delayed from that time.
+The only exception is when 2 messages have the SAME delay time. So
+in our example above \, we have 2 messages with a wait of 0ms. In that
+case \, the first message gets sent first.;
+#N canvas 121 31 1131 706 page-4 0;
+#X obj 518 12 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 516 685 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 104 20 ok \, now let's make a standard ADSR envelope:;
+#X text 103 35 First \, we mentally sketch out how it will work.;
+#X obj 37 281 makenote 100 500;
+#X obj 40 340 print;
+#X msg 54 243 64;
+#X msg 21 243 52;
+#X obj 40 310 pack f f;
+#X text 145 275 Make notes of 'velocity' (volume) 100 \, and each note
+is held for 500ms before being released. Both a noteon and noteoff
+message are sent (noteoff message has velocity of 0);
+#X text 102 209 So \, first let's make a basic note generator:;
+#X text 115 406 Now \, let's get started on our ADSR:;
+#X text 77 344 (watch the console for these values. Left value is the
+note number and right side is the velocity);
+#X obj 174 512 vsl 12 60 1 10000 1 1 empty empty A 0 -9 0 10 -262144
+-1 -1 1475 1;
+#X obj 190 512 vsl 12 60 1 10000 1 1 empty empty D 0 -9 0 10 -262144
+-1 -1 3394 1;
+#X obj 207 512 vsl 12 60 0 1 0 1 empty empty S 0 -9 0 10 -262144 -1
+-1 1770 1;
+#X obj 223 512 vsl 12 60 1 30000 1 1 empty empty R 0 -9 0 10 -262144
+-1 -1 3953 1;
+#X text 145 466 a GUI will be helpful;
+#X text 107 593 attack and decay sliders are log scaled from 1ms to
+10000ms \, sustain is simply 0->1 \, and release is set longer \, so
+it is log scaled from 1ms to 30000ms. These values should be tweaked
+according to what sort of envelopes you want to make.;
+#X text 563 94 * for the decay \, we wait for the attack to finish
+\, then ramp down to the sustain value in D ms;
+#X text 600 607 (note that the attack value is recieved twice \, once
+for the attack time \, and once for the wait before decay time. we
+could have just used \$1 in both cases \, but it is clearer to send
+the value twice);
+#N canvas 97 57 1133 690 page-5 0;
+#X obj 509 30 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 512 652 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 56 232 f;
+#X text 45 351 the help file for [vline~] tells us:;
+#X text 43 371 Any number of future ramps may be scheduled and vline~
+will remember them and execute them in order. They must be specified
+in increasing order of initial delay however \, since a segment cancels
+all planned segments at any future time.;
+#X msg 56 265 0 \$1;
+#X text 46 516 Say we have a percussive envelope \, with short attack
+\, fairly short decay \, low sustain value \, and then a bit of a tail.
+For example ADSR values of 10 \, 200 \, 0.3 \, 1000 - just like we
+made earlier on. What happens \, if we send a noteoff value right before
+or after the decay is beginning? Instead of dropping down to the sustain
+value and then tailing off \, the decay is cancelled and we now ramp
+down from whatever value we were at \, to 0 \, in 1000ms. This is usually
+not what we want \, so we have to add a mechanism for 'forcing' the
+decay \, even if a noteoff is received before the decay is finished.
+;
+#X text 45 105 the basic construct will look like this \, but don't
+breate too easy just yet \, we have one more little hurdle to jump.
+;
+#X text 45 461 That is very useful for us making envelopes \, as it
+means that if we get to a noteoff BEFORE the attack is finished \,
+the decay section will not be inadvertently triggered later on. However
+\, we do run into a little glitch here:;
+#N canvas 71 30 1126 679 page-6 0;
+#N canvas 42 25 1166 727 page-7 0;
+#X obj 73 163 pack f f;
+#X obj 70 134 makenote 100 50;
+#X obj 430 169 pack f f;
+#X obj 427 140 makenote 100 1000;
+#X obj 254 163 pack f f;
+#X obj 685 292 unpack 0 0;
+#X obj 775 187 vsl 12 60 1 10000 1 1 empty empty A 0 -9 0 10 -262144
+-1 -1 2175 1;
+#X obj 791 187 vsl 12 60 1 10000 1 1 empty empty D 0 -9 0 10 -262144
+-1 -1 4594 1;
+#X obj 808 187 vsl 12 60 0 1 0 1 empty empty S 0 -9 0 10 -262144 -1
+-1 2570 1;
+#X obj 824 187 vsl 12 60 1 30000 1 1 empty empty R 0 -9 0 10 -262144
+-1 -1 3053 1;
+#X floatatom 775 261 5 0 0 0 - - -;
+#X floatatom 810 262 5 0 0 0 - - -;
+#X floatatom 845 262 5 0 0 0 - - -;
+#X floatatom 880 262 5 0 0 0 - - -;
+#X obj 745 335 diy-adsr~ 5 200 0.25 1000;
+#X obj 240 317 stripnote;
+#X obj 241 368 phasor~;
+#X obj 241 345 mtof;
+#X obj 561 574 vcf~;
+#X obj 779 58 vsl 12 60 10 10000 1 1 \$0-cutoff \$0-cutoff-r cutoff
+0 -9 0 10 -262144 -1 -1 3500 1;
+#X msg 523 468 \$1 50;
+#X obj 523 492 line~;
+#X obj 639 620 *~;
+#X msg 722 561 \$1 50;
+#X obj 722 585 line~;
+#X obj 674 439 *~;
+#X obj 816 85 vsl 12 60 0 1 0 1 \$0-env2filter \$0-env2filter-r envelope->filter
+0 -9 0 10 -262144 -1 -1 3700 1;
+#X obj 571 542 +~;
+#X msg 613 386 \$1 50;
+#X obj 615 421 line~;
+#X obj 646 671 *~;
+#X obj 636 698 dac~;
+#X obj 628 510 *~ 10000;
+#X obj 628 486 *~;
+#X obj 240 394 -~ 0.5;
+#X obj 523 444 r \$0-cutoff;
+#X obj 613 364 r \$0-env2filter;
+#X obj 722 538 r \$0-resonance;
+#X obj 798 70 vsl 12 60 1 100 1 1 \$0-resonance \$0-resonance-r resonance
+0 -9 0 10 -262144 -1 -1 3900 1;
+#N canvas 0 22 450 300 clipping 0;
+#X obj 45 144 *~;
+#X obj 45 165 +~ 27;
+#X obj 105 132 *~;
+#X obj 105 153 *~ 9;
+#X obj 27 187 *~;
+#X obj 27 222 /~;
+#X obj 106 176 +~ 27;
+#X obj 27 245 outlet~;
+#X obj 27 72 clip~ -3 3;
+#X obj 27 49 inlet~;
+#X text 28 20 tanh(x) ~= x*(27+x*x) / (27+9*x*x);
+#X connect 0 0 1 0;
+#X connect 1 0 4 1;
+#X connect 2 0 3 0;
+#X connect 3 0 6 0;
+#X connect 4 0 5 0;
+#X connect 5 0 7 0;
+#X connect 6 0 5 1;
+#X connect 8 0 4 0;
+#X connect 8 0 0 0;
+#X connect 8 0 0 1;
+#X connect 8 0 2 0;
+#X connect 8 0 2 1;
+#X connect 9 0 8 0;
+#X restore 641 645 pd clipping;
+#X obj 639 457 *~;
+#X msg 235 96 25;
+#X msg 268 96 40;
+#X msg 54 96 31;
+#X msg 87 96 43;
+#X text 40 73 short note \, normal velocity;
+#X text 226 73 short note \, light velocity;
+#X text 409 75 long note \, normal velocity;
+#X obj 240 419 *~ 0.5;
+#X obj 251 134 makenote 40 50;
+#X text 675 79 synth settings:;
+#X text 659 188 envelope settings:;
+#X text 63 261 [stripnote] ensures that only noteon events send pitch
+information;
+#X text 63 248 simple sawtooth wave:;
+#X text 516 573 filter;
+#X text 670 672 VCA = multiply the final signal by the envelope;
+#X text 729 439 envelope to filter: we apply some exponential scaling
+to make the range more responsive to lower frequencies.;
+#X text 512 273 here we strip the velocity;
+#X text 525 288 from the note value;
+#X text 904 331 click in here to see our final;
+#X text 903 346 patch created as an abstraction;
+#X obj 254 192 s \$0-note;
+#X obj 684 265 r \$0-note;
+#X obj 240 294 r \$0-note;
+#X text 330 17 ADDING IT ALL TOGETHER;
+#X text 331 31 ---------------------;
+#N canvas 0 22 450 300 show-page 0;
+#X msg 105 218 \; pd-page-\$1 vis 1;
+#X msg 100 200 2;
+#X msg 129 200 3;
+#X msg 157 200 4;
+#X msg 186 200 5;
+#X msg 214 200 6;
+#X msg 244 200 7;
+#X obj 110 117 bng 20 250 50 0 empty empty 2 6 11 0 15 -262144 -1 -1
+;
+#X obj 132 117 bng 20 250 50 0 empty empty 3 6 11 0 15 -262144 -1 -1
+;
+#X obj 154 117 bng 20 250 50 0 empty empty 4 6 11 0 15 -262144 -1 -1
+;
+#X obj 176 117 bng 20 250 50 0 empty empty 5 6 11 0 15 -262144 -1 -1
+;
+#X obj 198 117 bng 20 250 50 0 empty empty 6 6 11 0 15 -262144 -1 -1
+;
+#X obj 220 117 bng 20 250 50 0 empty empty 7 6 11 0 15 -262144 -1 -1
+;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 1 0;
+#X connect 8 0 2 0;
+#X connect 9 0 3 0;
+#X connect 10 0 4 0;
+#X connect 11 0 5 0;
+#X connect 12 0 6 0;
+#X coords 0 -1 1 1 150 40 1 100 100;
+#X restore 1007 9 pd show-page;
+#X msg 410 102 19;
+#X msg 444 102 27;
+#X text 20 612 (this tutorial by matt davey \, email hard.off@gmail.com
+\, licensed under the same license as PD \, "the standard improved
+BSD license");
+#X text 21 597 nate:;
+#X text 21 657 basically \, you are quite free to do whatever you want.
+copy \, cut and paste \, use in lectures \, whatever...;
+#X connect 0 0 61 0;
+#X connect 1 0 0 0;
+#X connect 1 1 0 1;
+#X connect 2 0 61 0;
+#X connect 3 0 2 0;
+#X connect 3 1 2 1;
+#X connect 4 0 61 0;
+#X connect 5 1 14 0;
+#X connect 6 0 10 0;
+#X connect 7 0 11 0;
+#X connect 8 0 12 0;
+#X connect 9 0 13 0;
+#X connect 10 0 14 1;
+#X connect 11 0 14 2;
+#X connect 12 0 14 3;
+#X connect 13 0 14 4;
+#X connect 14 0 30 1;
+#X connect 14 0 25 0;
+#X connect 14 0 25 1;
+#X connect 15 0 17 0;
+#X connect 16 0 34 0;
+#X connect 17 0 16 0;
+#X connect 18 0 22 0;
+#X connect 20 0 21 0;
+#X connect 21 0 27 0;
+#X connect 22 0 39 0;
+#X connect 23 0 24 0;
+#X connect 24 0 22 1;
+#X connect 25 0 40 1;
+#X connect 27 0 18 1;
+#X connect 28 0 29 0;
+#X connect 29 0 40 0;
+#X connect 30 0 31 0;
+#X connect 30 0 31 1;
+#X connect 32 0 27 1;
+#X connect 33 0 32 0;
+#X connect 34 0 48 0;
+#X connect 35 0 20 0;
+#X connect 36 0 28 0;
+#X connect 37 0 23 0;
+#X connect 37 0 18 2;
+#X connect 39 0 30 0;
+#X connect 40 0 33 1;
+#X connect 40 0 33 0;
+#X connect 41 0 49 0;
+#X connect 42 0 49 0;
+#X connect 43 0 1 0;
+#X connect 44 0 1 0;
+#X connect 48 0 18 0;
+#X connect 49 0 4 0;
+#X connect 49 1 4 1;
+#X connect 62 0 5 0;
+#X connect 63 0 15 0;
+#X connect 67 0 3 0;
+#X connect 68 0 3 0;
+#X restore 1044 49 pd page-7;
+#X obj 155 476 r \$0-attack;
+#X obj 274 296 timer;
+#X obj 359 229 r \$0-attack;
+#X obj 369 258 r \$0-decay;
+#X obj 344 286 +;
+#X obj 344 257 f;
+#X obj 273 222 t b b;
+#X obj 275 389 >= 0;
+#X obj 275 344 t f f;
+#X obj 233 533 f;
+#X obj 248 506 r \$0-release;
+#X msg 233 566 0 \$1;
+#X obj 375 505 f;
+#X obj 375 530 pack f f f;
+#X obj 432 502 r \$0-release;
+#X obj 234 619 vline~;
+#X obj 275 418 sel 0 1;
+#X msg 375 559 \$1 \$2 \, 0 \$3 \$2;
+#X obj 275 321 expr $f2-$f1;
+#X obj 428 342 r \$0-decay;
+#X obj 403 366 min;
+#X obj 441 364 r \$0-release;
+#X obj 403 387 min;
+#X text 42 300 [attack \, decay \, sustain];
+#X text 278 114 [release];
+#X obj 35 327 r \$0-velocity;
+#X obj 71 533 pack f f f f f;
+#X msg 71 558 \$1 \$2 \, \$3 \$4 \$5;
+#X obj 120 427 *;
+#X obj 62 382 t f f;
+#X obj 491 418 r \$0-sustain;
+#X obj 467 397 r \$0-velocity;
+#X obj 468 444 *;
+#X obj 234 639 outlet~;
+#X obj 273 139 r \$0-velocity;
+#X obj 273 184 sel 1 0;
+#X obj 553 80 inlet velocity;
+#X obj 647 79 inlet A;
+#X obj 696 79 inlet D;
+#X obj 746 80 inlet S;
+#X obj 795 80 inlet R;
+#X obj 112 353 r \$0-attack;
+#X obj 135 401 r \$0-sustain;
+#X obj 126 452 r \$0-decay;
+#X obj 649 165 s \$0-attack;
+#X obj 722 165 s \$0-decay;
+#X obj 789 164 s \$0-sustain;
+#X obj 869 164 s \$0-release;
+#X obj 553 165 s \$0-velocity;
+#X obj 868 125 unpack \$1 \$2 \$3 \$4;
+#X obj 869 104 loadbang;
+#X obj 553 132 / 127;
+#X obj 553 108 clip 0 127;
+#X obj 273 163 > 0;
+#X obj 35 351 sel 0;
+#X text 591 48 inlets for individual parameters;
+#X text 27 63 ---------------------------------------------------------
+;
+#X text 869 84 creation arguments for ADSR;
+#X text 26 10 Finally \, we are ready to add all our pieces together
+to make our ADSR envelope generator. We want to make this re-usable
+in other patches \, so we add unique values for our sends and receives
+with \$0-xxxxxxx;
+#X text 569 188 Note that the midi standard is for full velocity to
+be 127 \, so that's what we are expecting at our inlet \, and then
+we scale by dividing by 127 You can change this so that the patch just
+accepts 0->1 scale directly if that is easier for you and you don't
+want to follow midi standards.;
+#X text 569 266 The attack \, decay and release are all accepting millisecond
+values \, as that seems the clearest way \, but again \, if you prefer
+to use midi standards \, or scale 0->1 \, then that is an easy modification.
+;
+#X text 567 327 Sustain here takes a 0->1 value. You can change that
+too \, depending on what type of controller you wish to use.;
+#X text 668 581 On the next page \, we take all this \, and save at
+as a patch called [diy-adsr~] that can be re-used as an abstraction.
+We use this envelope to shape the overall volume \, as well as add
+countour to the filter [vcf~] object.;
+#N canvas 0 22 450 300 show-page 0;
+#X msg 105 218 \; pd-page-\$1 vis 1;
+#X msg 100 200 2;
+#X msg 129 200 3;
+#X msg 157 200 4;
+#X msg 186 200 5;
+#X msg 214 200 6;
+#X msg 244 200 7;
+#X obj 110 117 bng 20 250 50 0 empty empty 2 6 11 0 15 -262144 -1 -1
+;
+#X obj 132 117 bng 20 250 50 0 empty empty 3 6 11 0 15 -262144 -1 -1
+;
+#X obj 154 117 bng 20 250 50 0 empty empty 4 6 11 0 15 -262144 -1 -1
+;
+#X obj 176 117 bng 20 250 50 0 empty empty 5 6 11 0 15 -262144 -1 -1
+;
+#X obj 198 117 bng 20 250 50 0 empty empty 6 6 11 0 15 -262144 -1 -1
+;
+#X obj 220 117 bng 20 250 50 0 empty empty 7 6 11 0 15 -262144 -1 -1
+;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 1 0;
+#X connect 8 0 2 0;
+#X connect 9 0 3 0;
+#X connect 10 0 4 0;
+#X connect 11 0 5 0;
+#X connect 12 0 6 0;
+#X coords 0 -1 1 1 150 40 1 100 100;
+#X restore 952 5 pd show-page;
+#X connect 1 0 27 4;
+#X connect 2 0 19 0;
+#X connect 3 0 6 1;
+#X connect 4 0 5 1;
+#X connect 5 0 19 1;
+#X connect 6 0 5 0;
+#X connect 7 0 2 0;
+#X connect 7 1 6 0;
+#X connect 8 0 17 0;
+#X connect 9 0 8 0;
+#X connect 9 1 21 0;
+#X connect 10 0 12 0;
+#X connect 11 0 10 1;
+#X connect 12 0 16 0;
+#X connect 13 0 14 0;
+#X connect 14 0 18 0;
+#X connect 15 0 14 2;
+#X connect 16 0 34 0;
+#X connect 17 0 10 0;
+#X connect 17 1 13 0;
+#X connect 18 0 16 0;
+#X connect 19 0 9 0;
+#X connect 20 0 21 1;
+#X connect 21 0 23 0;
+#X connect 22 0 23 1;
+#X connect 23 0 14 1;
+#X connect 26 0 55 0;
+#X connect 27 0 28 0;
+#X connect 28 0 16 0;
+#X connect 29 0 27 2;
+#X connect 30 0 27 0;
+#X connect 30 1 29 0;
+#X connect 31 0 33 1;
+#X connect 32 0 33 0;
+#X connect 33 0 13 1;
+#X connect 35 0 54 0;
+#X connect 36 0 7 0;
+#X connect 36 1 2 1;
+#X connect 37 0 53 0;
+#X connect 38 0 45 0;
+#X connect 39 0 46 0;
+#X connect 40 0 47 0;
+#X connect 41 0 48 0;
+#X connect 42 0 27 1;
+#X connect 43 0 29 1;
+#X connect 44 0 27 3;
+#X connect 50 0 45 0;
+#X connect 50 1 46 0;
+#X connect 50 2 47 0;
+#X connect 50 3 48 0;
+#X connect 51 0 50 0;
+#X connect 52 0 49 0;
+#X connect 53 0 52 0;
+#X connect 54 0 36 0;
+#X connect 55 1 30 0;
+#X restore 1053 38 pd page-6;
+#X text 940 443 again \, scale sustain;
+#X text 962 455 by velocity;
+#X text 756 243 If noteoff occurs before attack+decay have finished
+\, then force the decay first before triggering the release. If noteoff
+occurs after attack and decay have finished \, then just trigger a
+simple release tail.;
+#X text 525 572 simple release;
+#X text 887 577 force decay \, then release;
+#X obj 657 195 timer;
+#X obj 727 185 +;
+#X obj 727 156 f;
+#X obj 625 114 t b b;
+#X obj 658 303 >= 0;
+#X obj 658 258 t f f;
+#X obj 617 539 f;
+#X msg 617 572 0 \$1;
+#X obj 793 522 f;
+#X obj 793 547 pack f f f;
+#X obj 658 332 sel 0 1;
+#X msg 793 576 \$1 \$2 \, 0 \$3 \$2;
+#X obj 658 220 expr $f2-$f1;
+#X obj 821 402 min;
+#X obj 821 423 min;
+#X obj 851 488 *;
+#X obj 647 71 sel 1 0;
+#X obj 647 50 > 0;
+#X obj 696 621 s to-vline~;
+#X obj 56 291 s to-vline~;
+#X text 935 367 when noteoff occurs before;
+#X text 933 380 decay has completed \,;
+#X text 934 395 choose the shorter value from;
+#X text 936 409 decay or release;
+#X text 756 229 LOGIC:;
+#X obj 56 176 sel 0;
+#X obj 56 152 r velocity;
+#X obj 71 205 r release;
+#X text 45 48 * for the Release \, we ramp to 0 in R ms. The release
+begins as soon as a noteoff message is received. Remember that a noteoff
+is signalled by zero velocity.;
+#X obj 647 26 r velocity;
+#X obj 742 128 r attack;
+#X obj 752 157 r decay;
+#X obj 632 512 r release;
+#X obj 850 519 r release;
+#X obj 866 462 r sustain;
+#X obj 850 441 r velocity;
+#X obj 859 400 r release;
+#X obj 846 378 r decay;
+#N canvas 0 22 450 300 show-page 0;
+#X msg 105 218 \; pd-page-\$1 vis 1;
+#X msg 100 200 2;
+#X msg 129 200 3;
+#X msg 157 200 4;
+#X msg 186 200 5;
+#X msg 214 200 6;
+#X msg 244 200 7;
+#X obj 110 117 bng 20 250 50 0 empty empty 2 6 11 0 15 -262144 -1 -1
+;
+#X obj 132 117 bng 20 250 50 0 empty empty 3 6 11 0 15 -262144 -1 -1
+;
+#X obj 154 117 bng 20 250 50 0 empty empty 4 6 11 0 15 -262144 -1 -1
+;
+#X obj 176 117 bng 20 250 50 0 empty empty 5 6 11 0 15 -262144 -1 -1
+;
+#X obj 198 117 bng 20 250 50 0 empty empty 6 6 11 0 15 -262144 -1 -1
+;
+#X obj 220 117 bng 20 250 50 0 empty empty 7 6 11 0 15 -262144 -1 -1
+;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 1 0;
+#X connect 8 0 2 0;
+#X connect 9 0 3 0;
+#X connect 10 0 4 0;
+#X connect 11 0 5 0;
+#X connect 12 0 6 0;
+#X coords 0 -1 1 1 150 40 1 100 100;
+#X restore 962 -7 pd show-page;
+#X connect 0 0 1 0;
+#X connect 2 0 5 0;
+#X connect 5 0 34 0;
+#X connect 15 0 27 0;
+#X connect 16 0 27 1;
+#X connect 17 0 16 0;
+#X connect 18 0 15 0;
+#X connect 18 1 17 0;
+#X connect 19 0 25 0;
+#X connect 20 0 19 0;
+#X connect 20 1 28 0;
+#X connect 21 0 22 0;
+#X connect 22 0 33 0;
+#X connect 23 0 24 0;
+#X connect 24 0 26 0;
+#X connect 25 0 21 0;
+#X connect 25 1 23 0;
+#X connect 26 0 33 0;
+#X connect 27 0 20 0;
+#X connect 28 0 29 0;
+#X connect 29 0 24 1;
+#X connect 30 0 23 1;
+#X connect 31 0 18 0;
+#X connect 31 1 15 1;
+#X connect 32 0 31 0;
+#X connect 40 0 2 0;
+#X connect 41 0 40 0;
+#X connect 42 0 2 1;
+#X connect 44 0 32 0;
+#X connect 45 0 17 1;
+#X connect 46 0 16 1;
+#X connect 47 0 21 1;
+#X connect 48 0 24 2;
+#X connect 49 0 30 1;
+#X connect 50 0 30 0;
+#X connect 51 0 29 1;
+#X connect 52 0 28 1;
+#X restore 1063 49 pd page-5;
+#X text 630 135 (\$1);
+#X text 687 302 (\$2);
+#X text 702 422 (\$4);
+#X obj 583 469 pack f f f f f;
+#X text 729 448 (\$5);
+#X msg 583 504 \$1 \$2 \, \$3 \$4 \$5;
+#X obj 634 380 *;
+#X obj 586 269 t f f;
+#X text 661 379 (\$3);
+#X text 708 352 (we are also scaling sustain;
+#X text 744 365 by the velocity);
+#X text 634 164 we are assuming here it is already scaled 0->1);
+#X text 630 150 (this is the volume of the note \;;
+#X text 83 103 * for the decay \, we wait for the attack to finish
+\, then ramp down to the sustain value in D ms;
+#X text 84 131 * for the sustain \, we keep this value \, until a noteoff
+message is received;
+#X text 84 164 * for the Release \, we ramp to 0 in R ms. The release
+begins as soon as a noteoff message is received;
+#X text 563 74 * we have to ramp up to full velocity in A ms;
+#X text 85 73 * Attack is triggered by a velocity greater than zero
+(ie \, a note 'on');
+#X text 563 40 * Attack is triggered by a velocity greater than zero
+(ie \, a note 'on');
+#X text 122 420 -------------------------------;
+#X obj 583 537 s to-vline~;
+#X obj 560 215 sel 0;
+#X obj 559 136 r velocity;
+#X obj 633 303 r attack;
+#X obj 649 354 r sustain;
+#X obj 652 422 r decay;
+#X obj 673 447 r attack;
+#X text 714 484 go to full velocity (\$1) in the the time specified
+by Attack (\$2) \, then wait for the attack to finish (\$5) before
+going to the scaled sustain value (\$3) in the time specified by decay
+(\$4);
+#X text 694 503 <-;
+#N canvas 0 22 450 300 show-page 0;
+#X msg 105 218 \; pd-page-\$1 vis 1;
+#X msg 100 200 2;
+#X msg 129 200 3;
+#X msg 157 200 4;
+#X msg 186 200 5;
+#X msg 214 200 6;
+#X msg 244 200 7;
+#X obj 110 117 bng 20 250 50 0 empty empty 2 6 11 0 15 -262144 -1 -1
+;
+#X obj 132 117 bng 20 250 50 0 empty empty 3 6 11 0 15 -262144 -1 -1
+;
+#X obj 154 117 bng 20 250 50 0 empty empty 4 6 11 0 15 -262144 -1 -1
+;
+#X obj 176 117 bng 20 250 50 0 empty empty 5 6 11 0 15 -262144 -1 -1
+;
+#X obj 198 117 bng 20 250 50 0 empty empty 6 6 11 0 15 -262144 -1 -1
+;
+#X obj 220 117 bng 20 250 50 0 empty empty 7 6 11 0 15 -262144 -1 -1
+;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 1 0;
+#X connect 8 0 2 0;
+#X connect 9 0 3 0;
+#X connect 10 0 4 0;
+#X connect 11 0 5 0;
+#X connect 12 0 6 0;
+#X coords 0 -1 1 1 150 40 1 100 100;
+#X restore 971 7 pd show-page;
+#X text 606 210 (the right outlet of select outputs any value not equal
+to its creation argument);
+#X connect 0 0 1 0;
+#X connect 4 0 8 0;
+#X connect 4 1 8 1;
+#X connect 6 0 4 0;
+#X connect 7 0 4 0;
+#X connect 8 0 5 0;
+#X connect 25 0 27 0;
+#X connect 27 0 42 0;
+#X connect 28 0 25 2;
+#X connect 29 0 25 0;
+#X connect 29 1 28 0;
+#X connect 43 1 29 0;
+#X connect 44 0 43 0;
+#X connect 45 0 25 1;
+#X connect 46 0 28 1;
+#X connect 47 0 25 3;
+#X connect 48 0 25 4;
+#X restore 937 51 pd page-4;
+#N canvas 0 22 450 300 show-page 0;
+#X msg 105 218 \; pd-page-\$1 vis 1;
+#X msg 100 200 2;
+#X msg 129 200 3;
+#X msg 157 200 4;
+#X msg 186 200 5;
+#X msg 214 200 6;
+#X msg 244 200 7;
+#X obj 110 117 bng 20 250 50 0 empty empty 2 6 11 0 15 -262144 -1 -1
+;
+#X obj 132 117 bng 20 250 50 0 empty empty 3 6 11 0 15 -262144 -1 -1
+;
+#X obj 154 117 bng 20 250 50 0 empty empty 4 6 11 0 15 -262144 -1 -1
+;
+#X obj 176 117 bng 20 250 50 0 empty empty 5 6 11 0 15 -262144 -1 -1
+;
+#X obj 198 117 bng 20 250 50 0 empty empty 6 6 11 0 15 -262144 -1 -1
+;
+#X obj 220 117 bng 20 250 50 0 empty empty 7 6 11 0 15 -262144 -1 -1
+;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 1 0;
+#X connect 8 0 2 0;
+#X connect 9 0 3 0;
+#X connect 10 0 4 0;
+#X connect 11 0 5 0;
+#X connect 12 0 6 0;
+#X coords 0 -1 1 1 150 40 1 100 100;
+#X restore 845 8 pd show-page;
+#X connect 0 0 1 0;
+#X connect 4 0 3 0;
+#X connect 5 0 4 0;
+#X connect 14 0 15 0;
+#X connect 23 0 26 0;
+#X connect 24 0 25 0;
+#X connect 24 0 25 1;
+#X connect 26 0 24 0;
+#X connect 27 0 24 1;
+#X connect 28 0 27 0;
+#X restore 982 56 pd page-3;
+#X text 526 616 See the next page for more info;
+#X text 228 255 <--- if this is lower than 1 block;
+#X text 289 276 message will be sent;
+#X text 235 275 the;
+#X msg 261 276 0 \$1;
+#X text 236 294 at the same time \, and no;
+#X text 236 311 envelope will be made;
+#N canvas 0 22 450 300 show-page 0;
+#X msg 105 218 \; pd-page-\$1 vis 1;
+#X msg 100 200 2;
+#X msg 129 200 3;
+#X msg 157 200 4;
+#X msg 186 200 5;
+#X msg 214 200 6;
+#X msg 244 200 7;
+#X obj 110 117 bng 20 250 50 0 empty empty 2 6 11 0 15 -262144 -1 -1
+;
+#X obj 132 117 bng 20 250 50 0 empty empty 3 6 11 0 15 -262144 -1 -1
+;
+#X obj 154 117 bng 20 250 50 0 empty empty 4 6 11 0 15 -262144 -1 -1
+;
+#X obj 176 117 bng 20 250 50 0 empty empty 5 6 11 0 15 -262144 -1 -1
+;
+#X obj 198 117 bng 20 250 50 0 empty empty 6 6 11 0 15 -262144 -1 -1
+;
+#X obj 220 117 bng 20 250 50 0 empty empty 7 6 11 0 15 -262144 -1 -1
+;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 1 0;
+#X connect 8 0 2 0;
+#X connect 9 0 3 0;
+#X connect 10 0 4 0;
+#X connect 11 0 5 0;
+#X connect 12 0 6 0;
+#X coords 0 -1 1 1 150 40 1 100 100;
+#X restore 890 12 pd show-page;
+#X connect 0 0 3 0;
+#X connect 1 0 2 0;
+#X connect 1 0 2 1;
+#X connect 3 0 1 0;
+#X connect 4 0 14 0;
+#X connect 5 0 4 1;
+#X connect 7 0 4 0;
+#X connect 8 0 11 0;
+#X connect 9 0 8 1;
+#X connect 11 0 15 0;
+#X connect 12 0 15 0;
+#X connect 13 0 8 0;
+#X connect 14 0 12 0;
+#X connect 14 1 13 0;
+#X connect 15 0 1 1;
+#X connect 16 0 17 0;
+#X connect 22 0 25 0;
+#X connect 23 0 24 0;
+#X connect 23 0 24 1;
+#X connect 25 0 23 0;
+#X connect 26 0 38 0;
+#X connect 27 0 26 1;
+#X connect 29 0 26 0;
+#X connect 30 0 38 1;
+#X connect 32 0 23 1;
+#X connect 37 0 32 0;
+#X connect 38 0 37 0;
+#X restore 917 30 pd page-2;
+#X text 735 4 NEXT PAGE --->;
+#N canvas 0 22 450 300 show-page 0;
+#X msg 105 218 \; pd-page-\$1 vis 1;
+#X msg 100 200 2;
+#X msg 129 200 3;
+#X msg 157 200 4;
+#X msg 186 200 5;
+#X msg 214 200 6;
+#X msg 244 200 7;
+#X obj 110 117 bng 20 250 50 0 empty empty 2 6 11 0 15 -262144 -1 -1
+;
+#X obj 132 117 bng 20 250 50 0 empty empty 3 6 11 0 15 -262144 -1 -1
+;
+#X obj 154 117 bng 20 250 50 0 empty empty 4 6 11 0 15 -262144 -1 -1
+;
+#X obj 176 117 bng 20 250 50 0 empty empty 5 6 11 0 15 -262144 -1 -1
+;
+#X obj 198 117 bng 20 250 50 0 empty empty 6 6 11 0 15 -262144 -1 -1
+;
+#X obj 220 117 bng 20 250 50 0 empty empty 7 6 11 0 15 -262144 -1 -1
+;
+#X connect 1 0 0 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 1 0;
+#X connect 8 0 2 0;
+#X connect 9 0 3 0;
+#X connect 10 0 4 0;
+#X connect 11 0 5 0;
+#X connect 12 0 6 0;
+#X coords 0 -1 1 1 150 40 1 100 100;
+#X restore 827 -13 pd show-page;
+#N canvas 0 22 450 300 dsp-on 0;
+#X msg 164 81 \; pd dsp 1;
+#X obj 164 61 loadbang;
+#X connect 1 0 0 0;
+#X restore 856 30 pd dsp-on;
+#X connect 2 0 4 0;
+#X connect 2 0 48 0;
+#X connect 3 0 2 0;
+#X connect 5 0 6 0;
+#X connect 7 0 8 0;
+#X connect 8 0 10 1;
+#X connect 9 0 12 0;
+#X connect 10 0 11 0;
+#X connect 10 0 11 1;
+#X connect 12 0 10 0;
+#X connect 13 0 15 1;
+#X connect 14 0 17 0;
+#X connect 15 0 16 0;
+#X connect 15 0 16 1;
+#X connect 17 0 15 0;
+#X connect 18 0 13 0;
+#X connect 19 0 21 1;
+#X connect 20 0 23 0;
+#X connect 21 0 22 0;
+#X connect 21 0 22 1;
+#X connect 23 0 21 0;
+#X connect 24 0 19 0;
+#X connect 25 0 24 0;
+#X connect 26 0 25 1;
+#X connect 28 0 25 0;
+#X connect 30 0 33 0;
+#X connect 31 0 32 0;
+#X connect 31 0 32 1;
+#X connect 33 0 31 0;
+#X connect 34 0 35 0;
+#X connect 36 0 34 0;
+#X connect 37 0 34 0;
+#X connect 40 0 47 0;
+#X connect 41 0 46 0;
+#X connect 42 0 40 0;
+#X connect 45 0 42 0;
+#X connect 46 0 40 0;
+#X connect 46 1 45 0;
+#X connect 57 0 68 0;
+#X connect 58 0 57 1;
+#X connect 60 0 57 0;
+#X connect 61 0 65 0;
+#X connect 62 0 61 1;
+#X connect 65 0 72 0;
+#X connect 66 0 72 0;
+#X connect 67 0 61 0;
+#X connect 68 0 66 0;
+#X connect 68 1 67 0;
+#X connect 72 0 31 1;

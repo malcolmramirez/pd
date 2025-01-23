@@ -1,0 +1,12 @@
+#N canvas 1479 -182 1920 1147 12;
+#X obj 470 358 osc~;
+#X obj 470 382 abs~;
+#X obj 470 431 -~ 1;
+#X obj 470 406 *~ 2;
+#X obj 470 334 inlet;
+#X obj 470 455 outlet~;
+#X connect 0 0 1 0;
+#X connect 1 0 3 0;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 4 0 0 0;

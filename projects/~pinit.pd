@@ -12,13 +12,14 @@
 #X msg 47 158 200;
 #X obj 175 11 declare -path ../lib;
 #X obj 175 36 declare -path ../samples;
-#X obj 200 210 clip~ -1 1;
-#X obj 200 234 dac~;
-#X obj 200 186 *~ 1;
-#X obj 15 59 s gbang;
-#X obj 15 107 r gbang;
+#X obj 16 390 clip~ -1 1;
+#X obj 16 414 dac~;
+#X obj 16 366 *~ 1;
+#X obj 16 342 catch~ out;
+#X obj 15 59 s bang-all;
+#X obj 15 107 r bang-all;
 #X connect 0 0 1 0;
-#X connect 1 0 14 0;
+#X connect 1 0 15 0;
 #X connect 2 0 4 0;
 #X connect 3 0 2 0;
 #X connect 3 1 8 0;
@@ -29,4 +30,5 @@
 #X connect 11 0 12 0;
 #X connect 11 0 12 1;
 #X connect 13 0 11 0;
-#X connect 15 0 3 0;
+#X connect 14 0 13 0;
+#X connect 16 0 3 0;

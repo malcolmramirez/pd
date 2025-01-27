@@ -23,7 +23,6 @@ def edo(divisions: int, octaves: tuple):
         octave: [freq(octave_cents + div) for div in range(0, cents_per_octave, cents_per_note)]
         for octave, octave_cents in octaves_to_cents
     }
-    return freqs
 
 
 def main():

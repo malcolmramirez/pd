@@ -1,4 +1,4 @@
-#N canvas 0 39 1512 916 12;
+#N canvas 0 38 1512 916 12;
 #X declare -path ../lib;
 #X declare -path ../samples;
 #X obj 15 11 loadbang;

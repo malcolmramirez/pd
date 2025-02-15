@@ -825,7 +825,7 @@
 #X connect 116 0 33 0;
 #X restore 676 62 pd arp;
 #X obj 676 111 *~ 0.1;
-#X obj 347 111 *~ 0.06;
+#X obj 347 111 *~ 0.04;
 #X connect 0 0 1 0;
 #X connect 1 0 14 0;
 #X connect 2 0 4 0;

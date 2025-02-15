@@ -1,4 +1,4 @@
-#N canvas 0 38 1512 916 12;
+#N canvas 1 39 1512 916 12;
 #X declare -path ../lib;
 #X declare -path ../samples;
 #X obj 15 11 loadbang;
@@ -483,7 +483,6 @@
 #X obj 497 67 catch~ pad;
 #X obj 497 115 throw~ out;
 #X obj 281 41 bern 128;
-#X obj 497 91 *~ 0.06;
 #X obj 826 67 catch~ arp;
 #X obj 826 116 throw~ out;
 #N canvas 0 38 1512 916 arp 0;
@@ -734,7 +733,8 @@
 #X connect 110 0 60 0;
 #X connect 111 0 106 1;
 #X restore 826 42 pd arp;
-#X obj 826 91 *~ 0.175;
+#X obj 826 91 *~ 0.1;
+#X obj 497 91 *~ 0.04;
 #X connect 0 0 1 0;
 #X connect 1 0 14 0;
 #X connect 2 0 4 0;
@@ -758,8 +758,8 @@
 #X connect 27 0 35 0;
 #X connect 29 0 31 0;
 #X connect 30 0 29 0;
-#X connect 33 0 36 0;
+#X connect 33 0 40 0;
 #X connect 35 0 26 0;
-#X connect 36 0 34 0;
-#X connect 37 0 40 0;
-#X connect 40 0 38 0;
+#X connect 36 0 39 0;
+#X connect 39 0 37 0;
+#X connect 40 0 34 0;

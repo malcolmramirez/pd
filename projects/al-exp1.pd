@@ -114,6 +114,8 @@
 #X msg 192 392 start;
 #X msg 159 354 open al-exp1.wav;
 #X obj 427 496 bng 19 250 50 0 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000;
+#X obj 637 593 *~ 0.5;
+#X obj 805 596 *~ 0.5;
 #X connect 0 0 1 0;
 #X connect 1 0 14 0;
 #X connect 2 0 4 0;
@@ -187,9 +189,9 @@
 #X connect 67 0 100 0;
 #X connect 68 0 73 0;
 #X connect 69 0 44 0;
-#X connect 70 0 44 0;
+#X connect 70 0 113 0;
 #X connect 71 0 44 0;
-#X connect 72 0 44 0;
+#X connect 72 0 114 0;
 #X connect 73 0 62 1;
 #X connect 74 0 45 0;
 #X connect 75 0 83 0;
@@ -224,4 +226,6 @@
 #X connect 110 0 108 0;
 #X connect 111 0 108 0;
 #X connect 112 0 62 2;
+#X connect 113 0 44 0;
+#X connect 114 0 44 0;
 #X coords 0 0 1 1 85 60 0;

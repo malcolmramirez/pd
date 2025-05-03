@@ -1,4 +1,4 @@
-#N canvas 21 168 1440 847 12;
+#N canvas 21 107 1440 847 12;
 #X declare -path ../../lib;
 #X obj 14 46 loadbang;
 #X obj 16 390 clip~ -1 1;
@@ -53,9 +53,6 @@
 #X connect 18 0 17 0;
 #X connect 19 0 15 1;
 #X connect 20 0 19 0;
-#X connect 21 0 15 2;
-#X connect 22 0 12 2;
-#X connect 23 0 9 2;
 #X connect 24 0 9 1;
 #X connect 25 0 24 0;
 #X connect 26 0 24 1;

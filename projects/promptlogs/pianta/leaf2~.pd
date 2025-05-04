@@ -35,9 +35,9 @@
 #X obj 691 191 outlet;
 #X obj 597 89 bng 19 250 50 0 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000;
 #X obj 373 75 bin2 0.25;
-#X obj 597 117 bin2 0.75;
 #X obj 597 141 bng 19 250 50 0 empty empty empty 0 -10 0 12 #fcfcfc #000000 #000000;
 #X obj 691 117 bin2 0.5;
+#X obj 597 117 bin2 0.6;
 #X connect 0 0 2 0;
 #X connect 1 0 6 0;
 #X connect 2 0 11 0;
@@ -50,7 +50,7 @@
 #X connect 13 0 14 0;
 #X connect 15 0 17 0;
 #X connect 17 0 33 0;
-#X connect 18 0 38 0;
+#X connect 18 0 37 0;
 #X connect 19 0 20 1;
 #X connect 20 0 21 0;
 #X connect 21 0 29 0;
@@ -63,10 +63,10 @@
 #X connect 29 0 30 0;
 #X connect 31 0 24 0;
 #X connect 32 0 20 0;
-#X connect 34 0 36 0;
+#X connect 34 0 38 0;
 #X connect 35 0 3 0;
 #X connect 35 0 4 0;
-#X connect 36 0 37 0;
-#X connect 37 0 13 0;
-#X connect 38 0 15 0;
-#X connect 38 0 16 0;
+#X connect 36 0 13 0;
+#X connect 37 0 15 0;
+#X connect 37 0 16 0;
+#X connect 38 0 36 0;
